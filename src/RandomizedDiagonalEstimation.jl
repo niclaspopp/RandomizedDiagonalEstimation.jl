@@ -27,9 +27,11 @@ include("DoublingStrategy.jl")
 
 ## Define main functions
 """
-    Main function to compute a randomized estimate of the diagonal of a matrix A
+    function EstimateDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, normalizationParam::Bool=true, parallelizationParam::Bool=false ;maxqueries::Int=0,O=nothing,var_est::Float64=1/eps(),epsilon::Float64=1.0, delta::Float64=1.0,con::Float64=1.0)
 
-    Input:
+Main function to compute a randomized estimate of the diagonal of a matrix A
+
+Input:
         - A: Matrix to estimate the diagonal of
         - Algorithm: Choose which diagonal estimator is used, options are
             - :GirardHutchinson
@@ -139,37 +141,40 @@ function EstimateDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterio
     return vec(diag)
 end
 
+"""
 function EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),O=nothing)
-    """
-        Main function to compute a randomized estimate
 
-        Description of the Input:
-            - A: Matrix as input for the function
-            - f: Function to approximate diagonal of
-            - Algorithm: Choose which diagonal estimator is used, options are
-                - :GirardHutchinson
-            - MatFuncApprox: How to approximate f(A)b
-                - Chebshev: Using Chebyshev polynomials
-                    - requires intervale int and degree deg
-                - Remez: Using Remez polynomials
-                    - requires interval int and degree deg
-                - Krylov: Using the Arnoldi approximation
-                    - requires maximum potency of A in the Krylov subspace denoted by deg
-                - CG: Use conjugate gradient method to approximate diagonal of the inverse, Attention: f is neglected
-                    - requires maximum potency of A in the Krylov subspace denoted by deg
-            - StoppingCriterion: How to terminate, possible options
-                - doubling: Use doubling strategy and terminate when the relative error estimate is below a threshold eps, required parameter
-                    - queries_start: number of queries to start with
-                    - eps: bound for the relative error estimate
-                - queries: terminate when the maximum number of queries to A is reacher
-                    - maxqueries: maximum number of queries to A
-            - distribution: Select the distribution from which the random vectors are drawn, inbuilt options are
-                - :Rademacher
-                - :Gaussion
-                - :custom, in this case provide a matrix with the test vectors as columns
-                        - O: matrix with the test vectors as columns
-            - deg: degree of polynomial or maximum potency of A in the Krylov subspace, depending on MatFuncApprox
-    """
+Main function to compute a randomized estimate of the diagonal of a matrix function
+
+Input:
+* A: Matrix as input for the function
+* f: Function to approximate diagonal of
+* Algorithm: Choose which diagonal estimator is used, options are
+            - :GirardHutchinson
+* MatFuncApprox: How to approximate f(A)b
+            - Chebshev: Using Chebyshev polynomials
+                - requires intervale int and degree deg
+            - Remez: Using Remez polynomials
+                - requires interval int and degree deg
+            - Krylov: Using the Arnoldi approximation
+                - requires maximum potency of A in the Krylov subspace denoted by deg
+            - CG: Use conjugate gradient method to approximate diagonal of the inverse, Attention: f is neglected
+                - requires maximum potency of A in the Krylov subspace denoted by deg
+* StoppingCriterion: How to terminate, possible options
+            - doubling: Use doubling strategy and terminate when the relative error estimate is below a threshold eps, required parameter
+                - queries_start: number of queries to start with
+                - eps: bound for the relative error estimate
+            - queries: terminate when the maximum number of queries to A is reacher
+                - maxqueries: maximum number of queries to A
+* distribution: Select the distribution from which the random vectors are drawn, inbuilt options are
+            - :Rademacher
+            - :Gaussion
+            - :custom, in this case provide a matrix with the test vectors as columns
+                    - O: matrix with the test vectors as columns
+* deg: degree of polynomial or maximum potency of A in the Krylov subspace, depending on MatFuncApprox
+"""
+function EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),O=nothing)
+
     # check if matrix is square
     (m,n)=size(A)
     if n!=m
