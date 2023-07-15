@@ -32,29 +32,30 @@ include("DoublingStrategy.jl")
 Main function to compute a randomized estimate of the diagonal of a matrix A
 
 Input:
-        - A: Matrix to estimate the diagonal of
-        - Algorithm: Choose which diagonal estimator is used, options are
-            - :GirardHutchinson
-            - :DiagPP
-            - :NysDiagPP
-            - :XDiag
-            - :GirardHutchinsonShift
-            - :RSVD
-            - :AdaptiveDiagPP
-        - StoppingCriterion: How to terminate, possible options
-            - doubling: Use doubling strategy and terminate when the relative error estimate is below a threshold eps, required parameter
-                - queries_start: number of queries to start with
-                - eps: bound for the relative error estimate
-            - queries: terminate when the maximum number of queries to A is reacher
-                - maxqueries: maximum number of queries to A
-            - adaptive: Using an epsilon delta estimator with :AdaptiveDiagPP
-                - epsdelta: parameters (epsilon,delta) for an epsilon-delta estimator
-                - maxiter: maximum iterations
-        - distribution: Select the distribution from which the random vectors are drawn, inbuilt options are
-            - :Rademacher
-            - :Gaussion
-            - :custom, in this case provide a matrix with the test vectors as columns
-                    - O: matrix with the test vectors as columns
+* A: Matrix to estimate the diagonal of
+* Algorithm: Choose which diagonal estimator is used, options are
+    * :GirardHutchinson
+    * DiagPP
+    * :NysDiagPP
+    * :XDiag
+    * :GirardHutchinsonShift
+    * :RSVD
+    * :AdaptiveDiagPP
+* StoppingCriterion: How to terminate, possible options
+    * doubling: Use doubling strategy and terminate when the relative error estimate is below a threshold eps, required parameter
+        * queries_start: number of queries to start with
+        * eps: bound for the relative error estimate
+        * Note: has only been implemented with :GirardHutchinson and :DiagPP, other methods will be added with future releases
+    * queries: terminate when the maximum number of queries to A is reacher
+        * maxqueries: maximum number of queries to A
+    * adaptive: Using an epsilon delta estimator with :AdaptiveDiagPP
+        * epsdelta: parameters (epsilon,delta) for an epsilon-delta estimator
+        * maxiter: maximum iterations
+* distribution: Select the distribution from which the random vectors are drawn, inbuilt options are
+    * :Rademacher
+    * :Gaussion
+    * :custom, in this case provide a matrix with the test vectors as columns
+        * O: matrix with the test vectors as columns
 """
 function EstimateDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, normalizationParam::Bool=true, parallelizationParam::Bool=false ;maxqueries::Int=0,O=nothing,var_est::Float64=1/eps(),epsilon::Float64=1.0, delta::Float64=1.0,con::Float64=1.0)
 
@@ -141,8 +142,9 @@ function EstimateDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterio
     return vec(diag)
 end
 
+
 """
-function EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),O=nothing)
+    function EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),O=nothing)
 
 Main function to compute a randomized estimate of the diagonal of a matrix function
 
@@ -150,27 +152,27 @@ Input:
 * A: Matrix as input for the function
 * f: Function to approximate diagonal of
 * Algorithm: Choose which diagonal estimator is used, options are
-            - :GirardHutchinson
+    * :GirardHutchinson
 * MatFuncApprox: How to approximate f(A)b
-            - Chebshev: Using Chebyshev polynomials
-                - requires intervale int and degree deg
-            - Remez: Using Remez polynomials
-                - requires interval int and degree deg
-            - Krylov: Using the Arnoldi approximation
-                - requires maximum potency of A in the Krylov subspace denoted by deg
-            - CG: Use conjugate gradient method to approximate diagonal of the inverse, Attention: f is neglected
-                - requires maximum potency of A in the Krylov subspace denoted by deg
+    * Chebshev: Using Chebyshev polynomials
+        * requires interval int and degree deg
+    * Remez: Using Remez polynomials
+        * requires interval int and degree deg
+    * Krylov: Using the Arnoldi approximation
+        * requires maximum potency of A in the Krylov subspace denoted by deg
+    * CG: Use conjugate gradient method to approximate diagonal of the inverse, Attention: f is neglected
+        * requires maximum potency of A in the Krylov subspace denoted by deg
 * StoppingCriterion: How to terminate, possible options
-            - doubling: Use doubling strategy and terminate when the relative error estimate is below a threshold eps, required parameter
-                - queries_start: number of queries to start with
-                - eps: bound for the relative error estimate
-            - queries: terminate when the maximum number of queries to A is reacher
-                - maxqueries: maximum number of queries to A
+    * doubling: Use doubling strategy and terminate when the relative error estimate is below a threshold eps, required parameter
+        * queries_start: number of queries to start with
+        * eps: bound for the relative error estimate
+    * queries: terminate when the maximum number of queries to A is reacher
+        * maxqueries: maximum number of queries to A
 * distribution: Select the distribution from which the random vectors are drawn, inbuilt options are
-            - :Rademacher
-            - :Gaussion
-            - :custom, in this case provide a matrix with the test vectors as columns
-                    - O: matrix with the test vectors as columns
+    * :Rademacher
+    * :Gaussion
+    * :custom, in this case provide a matrix with the test vectors as columns
+        * O: matrix with the test vectors as columns
 * deg: degree of polynomial or maximum potency of A in the Krylov subspace, depending on MatFuncApprox
 """
 function EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),O=nothing)
@@ -208,41 +210,48 @@ function EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, Stoppi
         ErrorException("No suitable stopping criterion given")
     end
     # Return final result
-    return diag
+    return vec(diag)
 end
 
-function EstimateMoMDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, ngroups::Int, groupsize::Int, normalizationParam::Bool=true, parallelizationParam::Bool=false ;maxqueries::Int,O=nothing)
-    """
-        Main function to compute a randomized estimate
 
-        Description of the Input:
-            - A: Matrix to estimate the diagonal of
-            - Algorithm: Choose which diagonal estimator is used, options are
-                - :GirardHutchinson
-                - :DiagPP
-                - :NysDiagPP
-                - :XDiag
-                - :XNysDiag
-                - :GirardHutchinsonShift
-                - :RSVD
-                - :AdaptiveDiagPP
-            - StoppingCriterion: How to terminate, possible options
-                - doubling: Use doubling strategy and terminate when the relative error estimate is below a threshold eps, required parameter
-                    - queries_start: number of queries to start with
-                    - eps: bound for the relative error estimate
-                - queries: terminate when the maximum number of queries to A is reacher
-                    - maxqueries: maximum number of queries to A
-                - adaptive: Using an epsilon delta estimator with :AdaptiveDiagPP
-                    - epsdelta: parameters (epsilon,delta) for an epsilon-delta estimator
-                    - maxiter: maximum iterations
-            - distribution: Select the distribution from which the random vectors are drawn, inbuilt options are
-                - :Rademacher
-                - :Gaussion
-                - :custom, in this case provide a matrix with the test vectors as columns
-                        - O: matrix with the test vectors as columns
-            - ngroups: Number of groups for the Median of Means estimator
-            - groupsize: Groupsize for the Median of Means estimator
-    """
+
+
+
+
+
+
+
+
+"""
+    function EstimateMoMDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, ngroups::Int, groupsize::Int, normalizationParam::Bool=true, parallelizationParam::Bool=false ;maxqueries::Int,O=nothing)
+
+Function that computes a randomized estimate of the diagonal of a matrix using the median of means principle
+
+Input:
+* A: Matrix to estimate the diagonal of
+* Algorithm: Choose which diagonal estimator is used, options are
+    * :GirardHutchinson
+    * :DiagPP
+    * :NysDiagPP
+    * :XDiag
+    * :XNysDiag
+    * :GirardHutchinsonShift
+    * :RSVD
+    * :AdaptiveDiagPP
+* StoppingCriterion: How to terminate, possible options
+    * queries: terminate when the maximum number of queries to A is reacher
+        * maxqueries: maximum number of queries to A
+    * Note potential further stopping criteria will be added in future versions
+* distribution: Select the distribution from which the random vectors are drawn, inbuilt options are
+    * :Rademacher
+    * :Gaussion
+    * :custom, in this case provide a matrix with the test vectors as columns
+        * O: matrix with the test vectors as columns
+* ngroups: Number of groups for the Median of Means estimator
+* groupsize: Groupsize for the Median of Means estimator
+"""
+function EstimateMoMDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, ngroups::Int, groupsize::Int, normalizationParam::Bool=true, parallelizationParam::Bool=false ;maxqueries::Int,O=nothing)
+
     # check if matrix is square
     (m,n)=size(A)
     if n!=m
@@ -266,8 +275,8 @@ function EstimateMoMDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCrite
             elseif Algorithm==:XDiagEFF
                 diag = XDiag_EfficientMoM(A,maxqueries,ngroups,groupsize,distribution,O)
                 #diag = XDiag_old(A,maxqueries)
-            elseif Algorithm==:XNysDiag
-                diag = XNysDiagMoM(A,maxqueries,ngroups,groupsize,distribution,normalizationParam,O)
+            #elseif Algorithm==:XNysDiag
+            #    diag = XNysDiagMoM(A,maxqueries,ngroups,groupsize,distribution,normalizationParam,O)
             elseif Algorithm==:GirardHutchinsonShift
                 diag = GirardHutchinsonDiagonal_HutchinsonShiftMoM(A,maxqueries,ngroups,groupsize,distribution,normalizationParam,O)
             else
@@ -298,7 +307,7 @@ function EstimateMoMDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCrite
         end
     end
     # Return final result
-    return diag
+    return vec(diag)
 end
 
 
