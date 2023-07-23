@@ -15,7 +15,29 @@ For the estimation of the diagonal of matrix function we combine the Girard-Hutc
 
 The package provides three functions: `EstimateDiagonal`, `EstimateFunctionDiagonal` and `EstimateMoMDiagonal`. The last function incorporates the median of means package into diagonal estimation. A more detailed elaboration of the algorithms and theoretical properties can be found in this thesis: (will be updated once available on DIVA)
 
+## Estimating the Diagonal of Matrix
 
+The estimation of the diagonal of a function of a square matrix is handled by the function `EstimateDiagonal`
+
+```@docs
+EstimateFunctionDiagonal
+```
+
+## Estimating the Diagonal of Matrices Using Median of Means
+
+`EstimateMoMDiagonal` combines the functionality of `EstimateDiagonal` with the median of means principle.
+
+```@docs
+EstimateMoMDiagonal
+```
+
+## Estimating the Diagonal of Matrix
+
+The estimation of the diagonal of a function of a square matrix is handled by the function `EstimateDiagonal`
+
+```@docs
+EstimateFunctionDiagonal
+```
 
 ## Citing RandomizedDiagonalEstimation.jl
 

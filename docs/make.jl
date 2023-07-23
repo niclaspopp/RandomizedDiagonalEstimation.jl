@@ -5,13 +5,13 @@ makedocs(
     sitename = "RandomizedDiagonalEstimation",
     format = Documenter.HTML(),
     modules = [RandomizedDiagonalEstimation],
-    pages = [
-        "Home" => "index.md",
-        "Diagonal of Matrices" => "EstimateDiagonalDocs.md",
-        "Median of Means" => "EstimateDiagonalMoMDocs.md",
-        "Diagonal of Matrix Functions" => "EstimateDiagonalFunctionDocs.md",
-        "Exampled" => "ExamplesDocs.md"
-    ]
+    # pages = [
+    #     "Home" => "index.md",
+    #     "Diagonal of Matrices" => "EstimateDiagonalDocs.md",
+    #     "Median of Means" => "EstimateDiagonalMoMDocs.md",
+    #     "Diagonal of Matrix Functions" => "EstimateDiagonalFunctionDocs.md",
+    #     "Exampled" => "ExamplesDocs.md"
+    # ]
 )
 
 # Documenter can also automatically deploy documentation to gh-pages.
