@@ -1,8 +1,12 @@
+# RandomizedDiagonalEstimation.jl
+
 [![Build Status](https://travis-ci.com/niclaspopp/MultivariateDiscretization.jl.svg?branch=master)](https://travis-ci.com/niclaspopp/MultivariateDiscretization.jl)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/niclaspopp/MultivariateDiscretization.jl?svg=true)](https://ci.appveyor.com/project/niclaspopp/MultivariateDiscretization-jl)
 [![Coverage](https://codecov.io/gh/niclaspopp/MultivariateDiscretization.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/niclaspopp/MultivariateDiscretization.jl)
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://github.com/niclaspopp/MultivariateDiscretization.jl/blob/master/MultivariateDiscretization/Doc%20v0.1.0.ipynb)
 <br/>
+
+## Overview
 
 This is package a suite for the randomized estimation of matrix diagonals and matrix function diagonals written in Julia. The methods in the current version of  package
 include:
@@ -17,6 +21,8 @@ include:
 Algorithms which are currently in development and will be included in future versions of the package
 
 - FunDiag++
+
+## Documentation
 
 For information on using the package,
 [see the stable documentation](TO DO).
