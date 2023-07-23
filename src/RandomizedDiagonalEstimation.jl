@@ -15,7 +15,6 @@ using Krylov
 using ExponentialUtilities
 using ApproxFun
 using SpecialFunctions
-using Random
 
 ## load files with sub-functions
 include("FunctionDiagonalEstimation.jl")
@@ -25,7 +24,7 @@ include("MoMEstimators.jl")
 include("AdaptiveDiagonalEstimation.jl")
 include("DoublingStrategy.jl")
 
-## Define main functions
+# Define main functions
 """
     function EstimateDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, normalizationParam::Bool=true, parallelizationParam::Bool=false ;maxqueries::Int=0,O=nothing,var_est::Float64=1/eps(),epsilon::Float64=1.0, delta::Float64=1.0,con::Float64=1.0)
 
