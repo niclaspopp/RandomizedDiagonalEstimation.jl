@@ -1,4 +1,4 @@
-# RandomizedDiagonalEstimation.jl
+![plot](./other/PackageLogo.png)
 
 [![Runtests](https://github.com/niclaspopp/RandomizedDiagonalEstimation.jl/actions/workflows/Runtests.yml/badge.svg)](https://github.com/niclaspopp/RandomizedDiagonalEstimation.jl/actions/workflows/Runtests.yml)
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://niclaspopp.github.io/RandomizedDiagonalEstimation.jl/dev/)
