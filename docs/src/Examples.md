@@ -1,4 +1,4 @@
-## Examples
+## Diagonal Estimation
 The usage of the three function exported by the package is very simple. First, let's create an example matrix whose diagonal is easy to estimate.
 ```@example
 n=20
@@ -24,6 +24,7 @@ EstimateDiagonal(A,:NysDiagPP, :queries, :Rademacher, true,maxqueries=100)≈tru
 # XDiag
 EstimateDiagonal(A,:XDiag, :queries, :Rademacher, true,maxqueries=100)≈true_diag
 ```
+### Doubling strategy
 When using the doubling strategy the third keyword has to be altered.
 ```@example
 # Girard-Hutchinson with doubling
@@ -31,6 +32,7 @@ EstimateMoMDiagonal(A,:GirardHutchinson, :doubling, :Rademacher,true,queries_sta
 # Diag++ with doubling
 EstimateMoMDiagonal(A,:DiagPP, :doubling, :Rademacher,true,queries_start=100,eps=0.2)
 ```
+### Median of Means
 Using the median of means versions with 100 subgroups of size 1000 is carried out by the `EstimateMoMDiagonal` function.
 ```@example
 # Girard-Hutchinson
@@ -42,11 +44,13 @@ EstimateMoMDiagonal(A,:NysDiagPP, :queries, :Rademacher, 100,900,true,maxqueries
 # XDiag
 EstimateMoMDiagonal(A,:XDiag, :queries, :Rademacher, 100,900,true,maxqueries=100)
 ```
+### Adaptive Diagonal Estimation
 ADiag++ can be used by setting the second keyword to `:DiagPP` and the third keyword to `:adaptive`. The example shown next creates an (0.1,0.001) estimator.
 ```@example
 # Girard-Hutchinson
 RandomizedDiagonalEstimation.EstimateDiagonal(A,:DiagPP, :adaptive, :Rademacher, true,epsilon=0.1, delta=0.001)
 ```
+## Estimating the Diagonal of Matrix Functions
 For testing the methods available matrix functions, we create another test matrix.
 ```@example
 fexp = x -> exp(x)

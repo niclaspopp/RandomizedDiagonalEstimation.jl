@@ -15,31 +15,6 @@ For the estimation of the diagonal of matrix function we combine the Girard-Hutc
 
 The package provides three functions: `EstimateDiagonal`, `EstimateFunctionDiagonal` and `EstimateMoMDiagonal`. The last function incorporates the median of means package into diagonal estimation. A more detailed elaboration of the algorithms and theoretical properties can be found in this thesis: (will be updated once available on DIVA)
 
-## Estimating the Diagonal of Matrix
-
-The estimation of the diagonal of a function of a square matrix is handled by the function `EstimateDiagonal`
-
-```@docs
-EstimateDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, normalizationParam::Bool=true, parallelizationParam::Bool=false ;maxqueries::Int=0,O=nothing,var_est::Float64=1/eps(),epsilon::Float64=1.0, delta::Float64=1.0,con::Float64=1.0)
-```
-
-
-## Estimating the Diagonal of Matrices Using Median of Means
-
-`EstimateMoMDiagonal` combines the functionality of `EstimateDiagonal` with the median of means principle.
-
-```@docs
-EstimateMoMDiagonal(A::Matrix{Float64},Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, ngroups::Int, groupsize::Int, normalizationParam::Bool=true, parallelizationParam::Bool=false ;maxqueries::Int,O=nothing)
-```
-
-## Estimating the Diagonal of Matrix
-
-The estimation of the diagonal of a function of a square matrix is handled by the function `EstimateDiagonal`
-
-```@docs
-EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),O=nothing)
-```
-
 
 ## Citing RandomizedDiagonalEstimation.jl
 
