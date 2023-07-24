@@ -2,7 +2,7 @@
 
 ## Overview
 
-RandomizedDiagonalEstimation.jl is a Julia package that implements randomized methods for the estimation of the diagonal of matrices of matrices and matrix functions. For pure matrix diagonal estimation we provide the following algorithms
+RandomizedDiagonalEstimation.jl is a Julia package that implements randomized methods for the estimation of the diagonal of matrices and matrix functions. For pure matrix diagonal estimation the following algorithms are provided
 * Girard-Hutchinson Estimator [1]
 * Diag++ [2]
 * NysDiag++
@@ -13,7 +13,7 @@ For the estimation of the diagonal of matrix function we combine the Girard-Hutc
 * Minimax polynomials from the Remez algorithm to approximate ``f`` on the interval ``[\lambda_{min},\lambda_{max}]``
 * Arnoldi approximations
 
-The package provides three functions: `EstimateDiagonal`, `EstimateFunctionDiagonal` and `EstimateMoMDiagonal`. The last function incorporates the median of means package into diagonal estimation. A more detailed elaboration of the algorithms and theoretical properties can be found in this thesis: (will be updated once available on DIVA)
+The package exports three functions: `EstimateDiagonal`, `EstimateFunctionDiagonal` and `EstimateMoMDiagonal`. The last function incorporates the median of means package into diagonal estimation. A more detailed elaboration of the algorithms and theoretical properties can be found in this thesis: (will be updated once available on DIVA)
 
 
 ## Citing RandomizedDiagonalEstimation.jl
