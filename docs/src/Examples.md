@@ -64,7 +64,7 @@ There are three different types of approximators for general matrix functions wh
 ```@example
 # Remez Polynomials
 EstimateFunctionDiagonal(A_2,fexp,:GirardHutchinson,:queries, :Gaussian, :Remez, 25,int=(0.0,1.0),maxqueries=10000)
-# Remez Interpolants
+# Chebyshev Interpolants
 EstimateFunctionDiagonal(A_2,fexp,:GirardHutchinson,:queries, :Gaussian, :Chebyshev,25,int=(0.0,1.0),maxqueries=10000)
 # Arnoldi Approximation
 EstimateFunctionDiagonal(A_2,fexp,:GirardHutchinson,:queries, :Gaussian, :Krylov,18,int=(0.0,1.0),maxqueries=10000)
