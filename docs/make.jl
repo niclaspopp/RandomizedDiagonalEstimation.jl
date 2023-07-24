@@ -4,7 +4,10 @@ using RandomizedDiagonalEstimation
 makedocs(
     sitename = "RandomizedDiagonalEstimation",
     format = Documenter.HTML(),
-    modules = [RandomizedDiagonalEstimation]
+    modules = [RandomizedDiagonalEstimation],
+    pages = [
+        "index.md",
+        "Examples" => "Examples.md",
 )
 
 deploydocs(;
