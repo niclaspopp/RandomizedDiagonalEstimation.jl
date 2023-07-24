@@ -6,3 +6,7 @@ makedocs(
     format = Documenter.HTML(),
     modules = [RandomizedDiagonalEstimation]
 )
+
+deploydocs(;
+    repo="github.com/niclaspopp/RandomizedDiagonalEstimation.jl.git",
+)
