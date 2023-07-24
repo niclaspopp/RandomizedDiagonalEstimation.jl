@@ -1,4 +1,4 @@
-# RandomizedDiagonalEstimation.jl
+![plot](./other/PackageLogo.png)
 
 ## Overview
 

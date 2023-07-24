@@ -6,7 +6,7 @@
 
 ## Overview
 
-This is package a suite for the randomized estimation of matrix diagonals and matrix function diagonals written in Julia. The methods in the current version of  package
+This package is a suite for the randomized estimation of matrix diagonals and matrix function diagonals written in Julia. The methods in the current version of  package
 include:
 
 - Girad-Hutchinson Diagonal Estimator
@@ -23,7 +23,7 @@ Algorithms which are currently in development and will be included in future ver
 ## Documentation
 
 For information on using the package,
-[see the stable documentation](TO DO).
+[see the stable documentation](https://niclaspopp.github.io/RandomizedDiagonalEstimation.jl/dev/).
 
 ## Declaration, Contributing and Citing
 

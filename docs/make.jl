@@ -6,8 +6,8 @@ makedocs(
     format = Documenter.HTML(),
     modules = [RandomizedDiagonalEstimation],
     pages = [
-        "index.md",
-        "Examples" => "Examples.md",
+        "Home" => "index.md",
+        "Examples" => "Examples.md"]
 )
 
 deploydocs(;
