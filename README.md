@@ -15,9 +15,6 @@ include:
 - XDiag
 - ADiag++
 - FunDiag with three different function approximators (Remez Polynomials, Chebyshevs interpolants and Arnoldi Approximations)
-
-Algorithms which are currently in development and will be included in future versions of the package
-
 - FunDiag++
 
 ## Documentation

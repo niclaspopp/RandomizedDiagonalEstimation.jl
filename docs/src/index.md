@@ -25,4 +25,4 @@ please cite the following paper (will be updated).
 [1] C. Bekas, E. Kokiopoulou, and Y. Saad. “An estimator for the diagonal of a matrix”. In: Applied Numerical Mathematics 57.11 (2007). Numerical Algorithms, Parallelism and Applications (2), pp. 1214–1229. issn: 0168-9274.\
 [2] R. A. Baston and Y. Nakatsukasa. “Stochastic diagonal estimation: probabilistic bounds and an
 improved algorithm”. In: ArXiv abs/2201.10684 (2022).\
-[3] E. N. Epperly and J. A. Tropp. Efficient error and variance estimation for randomized matrix com- putations. 2023. arXiv: 2207.06342 [math.NA].
+[3] E. N. Epperly, J. A. Tropp, and R. J. Webber. “XTrace: Making the most of every sample in stochastic trace estimation”. In: arXiv e-prints, arXiv:2301.07825 (Jan. 2023), arXiv:2301.07825. arXiv: 2301. 07825 [math.NA].
