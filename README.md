@@ -9,7 +9,7 @@
 This package is a suite for the randomized estimation of matrix diagonals and matrix function diagonals written in Julia. The methods in the current version of  package
 include:
 
-- Girad-Hutchinson Diagonal Estimator
+- Girard-Hutchinson Diagonal Estimator
 - Diag++
 - NysDiag++
 - XDiag

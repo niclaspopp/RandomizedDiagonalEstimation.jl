@@ -149,12 +149,9 @@ Main function to compute a randomized estimate of the diagonal of a matrix funct
 
 Input:
 * A: Matrix as input for the function
-* fmat: Matrix function to approximate diagonal of
-* f: Scalar version of fmat
+* f: Function to approximate diagonal of
 * Algorithm: Choose which diagonal estimator is used, options are
     * :GirardHutchinson
-    * :funDiagPP (funDiag++)
-    * :funNys (funNyström)
 * MatFuncApprox: How to approximate f(A)b
     * Chebshev: Using Chebyshev polynomials
         * requires interval int and degree deg
@@ -165,6 +162,9 @@ Input:
     * CG: Use conjugate gradient method to approximate diagonal of the inverse, Attention: f is neglected
         * requires maximum potency of A in the Krylov subspace denoted by deg
 * StoppingCriterion: How to terminate, possible options
+    * doubling: Use doubling strategy and terminate when the relative error estimate is below a threshold eps, required parameter
+        * queries_start: number of queries to start with
+        * eps: bound for the relative error estimate
     * queries: terminate when the maximum number of queries to A is reacher
         * maxqueries: maximum number of queries to A
 * distribution: Select the distribution from which the random vectors are drawn, inbuilt options are
