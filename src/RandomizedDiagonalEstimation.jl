@@ -152,6 +152,8 @@ Input:
 * f: Function to approximate diagonal of
 * Algorithm: Choose which diagonal estimator is used, options are
     * :GirardHutchinson
+    * :funDiagPP
+    * :funNys
 * MatFuncApprox: How to approximate f(A)b
     * Chebshev: Using Chebyshev polynomials
         * requires interval int and degree deg
@@ -162,9 +164,6 @@ Input:
     * CG: Use conjugate gradient method to approximate diagonal of the inverse, Attention: f is neglected
         * requires maximum potency of A in the Krylov subspace denoted by deg
 * StoppingCriterion: How to terminate, possible options
-    * doubling: Use doubling strategy and terminate when the relative error estimate is below a threshold eps, required parameter
-        * queries_start: number of queries to start with
-        * eps: bound for the relative error estimate
     * queries: terminate when the maximum number of queries to A is reacher
         * maxqueries: maximum number of queries to A
 * distribution: Select the distribution from which the random vectors are drawn, inbuilt options are
@@ -197,11 +196,22 @@ function EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, Stoppi
             else
                 ErrorException("No suitable stopping approximation algorithm for f(A)b selected")
             end
+        elseif Algorithm==:funDiagPP
+            if MatFuncApprox==:Chebyshev
+                diag = funDiagPP_Chebyshev(A,fmat,f,maxqueries,deg,int,distribution,normalizationParam,q)
+            elseif MatFuncApprox==:Remez
+                diag = funDiagPP_Remez(A,fmat,f,maxqueries,deg,int,distribution,normalizationParam,q)
+            elseif MatFuncApprox==:Krylov
+                diag = funDiagPP_Krylov(A,fmat,f,maxqueries,deg,distribution,normalizationParam,q)
+            else
+                ErrorException("No suitable stopping approximation algorithm for f(A)b selected")
+            end
+        elseif Algorithm==:funNys
+            diag = funNyströmDiag(A,f,maxqueries)
         else
             # Throw error: no suitable algorithm given
             ErrorException("No suitable algorithm selected")
         end
-
     elseif StoppingCriterion==:doubling
         ErrorException("Not implemented yet")
     else
