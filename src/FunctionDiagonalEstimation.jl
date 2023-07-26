@@ -360,6 +360,7 @@ function funDiagPP_Chebyshev(A, fAfun,fscalar,s_in,p,int,dist,normal=true,q=4)
 
     # Return result
     return diag1+diag2
+end
 
 """
     Helper functions
@@ -389,35 +390,4 @@ end
 function RemezPoly(f,int,degree)
     rem=ratfn_minimax(f, int, degree, 0)
     return Polynomial(rem[1])
-end
-
-function nystrom(A, r, q)
-    # Implementation of the Nystrom approximation
-
-    # get sizes of the matrix
-    (m,n)=size(A)
-    if n!=m
-        print("Matrix must be square")
-    end
-    Omega, R = qr(randn(n, r))
-    Omega = Matrix(Omega)
-    iteration = 0
-
-    # Subspace iteration
-    while iteration < q-1
-        Omega, R = qr(A*Omega)
-        Omega = Matrix(Omega)
-        iteration += 1
-    end
-
-    # Compute matrix products with A
-    Y = A*Omega
-
-    # Regularization
-    U, S, Vt = svd(Omega'*Y)
-    S[S .< 5e-16*S[1,1]] .= 0
-    B = Y * (Vt' * pinv(diagm(sqrt.(S))) * Vt)
-    U, Shat, Vhatt = svd(B)
-    S = Shat.^2
-    return U, S
 end
