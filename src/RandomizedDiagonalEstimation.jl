@@ -173,7 +173,7 @@ Input:
         * O: matrix with the test vectors as columns
 * deg: degree of polynomial or maximum potency of A in the Krylov subspace, depending on MatFuncApprox
 """
-function EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),O=nothing)
+function EstimateFunctionDiagonal(A::Matrix{Float64},fmat,f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),q=4,O=nothing)
 
     # check if matrix is square
     (m,n)=size(A)
