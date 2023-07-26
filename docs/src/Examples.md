@@ -63,11 +63,11 @@ diag_exp = diag(A_2_exp)
 There are three different types of approximators for general matrix functions which can be used for the estimation of the diagonal in conjunction with the Girard-Hutchinson estimator. They all use the same syntax and are specified by the sixth keyword.
 ```@example
 # Remez Polynomials
-EstimateFunctionDiagonal(A_2,fexp,:GirardHutchinson,:queries, :Gaussian, :Remez, 25,int=(0.0,1.0),maxqueries=10000)
+EstimateFunctionDiagonal(A_2,fexp,fexp,:GirardHutchinson,:queries, :Gaussian, :Remez, 25,int=(0.0,1.0),maxqueries=10000)
 # Chebyshev Interpolants
-EstimateFunctionDiagonal(A_2,fexp,:GirardHutchinson,:queries, :Gaussian, :Chebyshev,25,int=(0.0,1.0),maxqueries=10000)
+EstimateFunctionDiagonal(A_2,fexp,fexp,:GirardHutchinson,:queries, :Gaussian, :Chebyshev,25,int=(0.0,1.0),maxqueries=10000)
 # Arnoldi Approximation
-EstimateFunctionDiagonal(A_2,fexp,:GirardHutchinson,:queries, :Gaussian, :Krylov,18,int=(0.0,1.0),maxqueries=10000)
+EstimateFunctionDiagonal(A_2,fexp,fexp,:GirardHutchinson,:queries, :Gaussian, :Krylov,18,int=(0.0,1.0),maxqueries=10000)
 ```
 For the diagonal of the inverse we provide an additional estimator based on the conjugate gradients method.
 ```@example
@@ -77,4 +77,18 @@ diag_inv = diag(A_temp_2_inv)
 # Estimator
 finv = x -> x^(-1)
 EstimateFunctionDiagonal(A_2,finv,:GirardHutchinson,:queries, :Gaussian, :CG, 25,int=(0.0,1.0),maxqueries=10000)
+```
+### Deflation
+As for the standard diagonal estimation, deflation can be carried out. In this case use the approximator `:funDiagPP`.
+```@example
+# Remez Polynomials
+EstimateFunctionDiagonal(A_2,fexp,fexp,:funDiagPP,:queries, :Gaussian, :Remez, 25,int=(0.0,1.0),maxqueries=10000)
+# Chebyshev Interpolants
+EstimateFunctionDiagonal(A_2,fexp,fexp,:funDiagPP,:queries, :Gaussian, :Chebyshev,25,int=(0.0,1.0),maxqueries=10000)
+# Arnoldi Approximation
+EstimateFunctionDiagonal(A_2,fexp,fexp,:funDiagPP,:queries, :Gaussian, :Krylov,18,int=(0.0,1.0),maxqueries=10000)
+```
+A pure low rank approximation of the diagonal of a matrix function can be obatined by using the funNyström algorithm abreviated by the keyword `:funNys`
+```@example
+EstimateFunctionDiagonal(A_2,fexp,fexp,:funNys,:queries, :Gaussian, :nothing, 25,int=(0.0,1.0),maxqueries=10000)
 ```
