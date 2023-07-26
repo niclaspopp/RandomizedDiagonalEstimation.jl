@@ -174,7 +174,8 @@ Input:
         * O: matrix with the test vectors as columns
 * deg: degree of polynomial or maximum potency of A in the Krylov subspace, depending on MatFuncApprox
 """
-function EstimateFunctionDiagonal(A::Matrix{Float64},fmat,f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),q=4,O=nothing)
+function EstimateFunctionDiagonal(A::Matrix{Float64},f,Algorithm::Symbol, StoppingCriterion::Symbol, distribution::Symbol, MatFuncApprox::Symbol, deg::Int64, normalizationParam::Bool=true;maxqueries::Int,int::Tuple=(0.0,1.0),O=nothing)
+
     # check if matrix is square
     (m,n)=size(A)
     if n!=m
@@ -196,18 +197,6 @@ function EstimateFunctionDiagonal(A::Matrix{Float64},fmat,f,Algorithm::Symbol, S
             else
                 ErrorException("No suitable stopping approximation algorithm for f(A)b selected")
             end
-        elseif Algorithm==:funDiagPP
-            if MatFuncApprox==:Chebyshev
-                diag = funDiagPP_Chebyshev(A,fmat,f,maxqueries,deg,int,distribution,normalizationParam,q)
-            elseif MatFuncApprox==:Remez
-                diag = funDiagPP_Remez(A,fmat,f,maxqueries,deg,int,distribution,normalizationParam,q)
-            elseif MatFuncApprox==:Krylov
-                diag = funDiagPP_Krylov(A,fmat,f,maxqueries,deg,distribution,normalizationParam,q)
-            else
-                ErrorException("No suitable stopping approximation algorithm for f(A)b selected")
-            end
-        elseif Algorithm==:funNys
-            diag = funNyströmDiag(A,f,maxqueries)
         else
             # Throw error: no suitable algorithm given
             ErrorException("No suitable algorithm selected")

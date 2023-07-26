@@ -50,9 +50,9 @@ diag_exp = diag(A_temp_2_exp)
 diag_exp
 
 @testset "RandomizedDiagonalEstimation.jl" begin
-    @test norm(RandomizedDiagonalEstimation.EstimateFunctionDiagonal(A_temp_2,fexp,fexp,:GirardHutchinson,:queries, :Gaussian, :Remez, 25,int=(0.0,1.0),maxqueries=10000)-diag_exp)/norm(diag_exp)<1
-    @test norm(RandomizedDiagonalEstimation.EstimateFunctionDiagonal(A_temp_2,fexp,fexp,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, 25,int=(0.0,1.0),maxqueries=10000)-diag_exp)/norm(diag_exp)<1
-    @test norm(RandomizedDiagonalEstimation.EstimateFunctionDiagonal(A_temp_2,fexp,fexp,:GirardHutchinson,:queries, :Gaussian, :Krylov, 18,int=(0.0,1.0),maxqueries=10000)-diag_exp)/norm(diag_exp)<1
+    @test norm(RandomizedDiagonalEstimation.EstimateFunctionDiagonal(A_temp_2,fexp,:GirardHutchinson,:queries, :Gaussian, :Remez, 25,int=(0.0,1.0),maxqueries=10000)-diag_exp)/norm(diag_exp)<1
+    @test norm(RandomizedDiagonalEstimation.EstimateFunctionDiagonal(A_temp_2,fexp,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, 25,int=(0.0,1.0),maxqueries=10000)-diag_exp)/norm(diag_exp)<1
+    @test norm(RandomizedDiagonalEstimation.EstimateFunctionDiagonal(A_temp_2,fexp,:GirardHutchinson,:queries, :Gaussian, :Krylov, 18,int=(0.0,1.0),maxqueries=10000)-diag_exp)/norm(diag_exp)<1
 end
 
 A_temp_2 = Q*diagm(vec(1:n).^(-2))*Q'
@@ -61,5 +61,5 @@ diag_inv = diag(A_temp_2_inv)
 diag_inv
 
 @testset "RandomizedDiagonalEstimation.jl" begin
-    @test norm(RandomizedDiagonalEstimation.EstimateFunctionDiagonal(A_temp_2,finv,finv,:GirardHutchinson,:queries, :Gaussian, :CG, 25,int=(0.0,1.0),maxqueries=10000)-diag_inv)/norm(diag_inv)<1
+    @test norm(RandomizedDiagonalEstimation.EstimateFunctionDiagonal(A_temp_2,fexp,:GirardHutchinson,:queries, :Gaussian, :CG, 25,int=(0.0,1.0),maxqueries=10000)-diag_inv)/norm(diag_inv)<1
 end
