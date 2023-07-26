@@ -32,7 +32,7 @@ Polynomials = "3"
 Random = "1"
 RandomizedLinAlg = "0"
 RandomizedPreconditioners = "0"
-Remez = "1"
+Remez = "0"
 SpecialFunctions = "2"
 Statistics = "1"
 
