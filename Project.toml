@@ -21,6 +21,20 @@ Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
 julia = "1"
+ApproxFun = "0"
+Distributions = "0"
+Documenter = "0"
+DocumenterTools = "0"
+ExponentialUtilities = "1"
+Krylov = "0"
+LinearAlgebra = "1"
+Polynomials = "3"
+Random = "1"
+RandomizedLinAlg = "0"
+RandomizedPreconditioners = "0"
+Remez = "1"
+SpecialFunctions = "2"
+Statistics = "1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
