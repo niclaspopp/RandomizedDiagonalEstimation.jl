@@ -179,8 +179,8 @@ end
 
 function KrylovfunDiagPP(A, fAfun,fscalar,s_in,deg,q=4)
 
-    r = Int(round(s_in/3))
-    m = s_in-2*r
+    r = Int(round(s_in/2))
+    m = s_in-r
     # Implementation of Algorithm 2
     (mA,n)=size(A)
     if n!=mA
