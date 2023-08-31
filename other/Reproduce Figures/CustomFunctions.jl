@@ -222,8 +222,8 @@ end
 
 function ChebyshevfunDiagPP(A, fAfun,fscalar,s_in,deg,int,q=4)
 
-    r = Int(round(s_in/3))
-    s = s_in-2*r
+    r = Int(round(s_in/2))
+    s = s_in-r
     # Implementation of Algorithm 2
     (mA,n)=size(A)
     if n!=mA
@@ -280,8 +280,8 @@ end
 
 function RemezfunDiagPP(A, fAfun,fscalar,s_in,deg,int,q=4)
 
-    r = Int(round(s_in/3))
-    s = s_in-2*r
+    r = Int(round(s_in/2))
+    s = s_in-r
     # Implementation of Algorithm 2
     (mA,n)=size(A)
     if n!=mA
