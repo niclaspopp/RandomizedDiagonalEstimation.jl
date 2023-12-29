@@ -669,142 +669,141 @@ diag_step_log = diag(A_step_log)
 norm_flat_log = norm(diag_flat_log)
 norm_poly_log = norm(diag_poly_log)
 norm_exp_log = norm(diag_exp_log)
-norm_step_log = norm(diag_step_log);
-
+norm_step_log = norm(diag_step_log)
 ## Perform experiments
-n_tries = 1
+n_tries = 5
 range_test = 20:20:300
 lim_q = length(range_test)
 deg = 25
 q_test=6
 
-Exact_fA_error_flat_log = zeros(lim_q)
-Exact_fA_error_poly_log = zeros(lim_q)
-Exact_fA_error_exp_log = zeros(lim_q)
-Exact_fA_error_step_log = zeros(lim_q)
-
-Chebyshev_error_flat_log = zeros(lim_q)
-Chebyshev_error_poly_log = zeros(lim_q)
-Chebyshev_error_exp_log = zeros(lim_q)
-Chebyshev_error_step_log = zeros(lim_q)
-
-Remez_error_flat_log = zeros(lim_q)
-Remez_error_poly_log = zeros(lim_q)
-Remez_error_exp_log = zeros(lim_q)
-Remez_error_step_log = zeros(lim_q)
-
-Krylov_error_flat_log = zeros(lim_q)
-Krylov_error_poly_log = zeros(lim_q)
-Krylov_error_exp_log = zeros(lim_q)
-Krylov_error_step_log = zeros(lim_q)
-
-funDiagPP_error_flat_log = zeros(lim_q)
+# Exact_fA_error_flat_log = zeros(lim_q)
+# Exact_fA_error_poly_log = zeros(lim_q)
+# Exact_fA_error_exp_log = zeros(lim_q)
+# Exact_fA_error_step_log = zeros(lim_q)
+#
+# Chebyshev_error_flat_log = zeros(lim_q)
+# Chebyshev_error_poly_log = zeros(lim_q)
+# Chebyshev_error_exp_log = zeros(lim_q)
+# Chebyshev_error_step_log = zeros(lim_q)
+#
+# Remez_error_flat_log = zeros(lim_q)
+# Remez_error_poly_log = zeros(lim_q)
+# Remez_error_exp_log = zeros(lim_q)
+# Remez_error_step_log = zeros(lim_q)
+#
+# Krylov_error_flat_log = zeros(lim_q)
+# Krylov_error_poly_log = zeros(lim_q)
+# Krylov_error_exp_log = zeros(lim_q)
+# Krylov_error_step_log = zeros(lim_q)
+#
+# funDiagPP_error_flat_log = zeros(lim_q)
 funDiagPP_error_poly_log = zeros(lim_q)
-funDiagPP_error_exp_log = zeros(lim_q)
-funDiagPP_error_step_log = zeros(lim_q)
-
-funNy_error_flat_log = zeros(lim_q)
-funNy_error_poly_log = zeros(lim_q)
-funNy_error_exp_log = zeros(lim_q)
-funNy_error_step_log = zeros(lim_q)
+# funDiagPP_error_exp_log = zeros(lim_q)
+# funDiagPP_error_step_log = zeros(lim_q)
+#
+# funNy_error_flat_log = zeros(lim_q)
+# funNy_error_poly_log = zeros(lim_q)
+# funNy_error_exp_log = zeros(lim_q)
+# funNy_error_step_log = zeros(lim_q)
 
 
 for i=1:lim_q
     for j=1:n_tries
-			GH_exact_exp_flat=EstimateDiagonal(A_flat_log,:GirardHutchinson,:queries,:Gaussian,maxqueries=range_test[i])
-			ch_flat=EstimateFunctionDiagonal(A_flat,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, deg,int=(1.0,3.0),maxqueries=range_test[i])
-			rem_flat=EstimateFunctionDiagonal(A_flat,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Remez, deg,int=(1.0,3.0),maxqueries=range_test[i])
-			kr_flat=GirardHutchinsonFunctionDiagonalKrylovCustom(A_flat,range_test[i],logmat,deg+1)
-			# Add try-catck block to handle LAPACK exceptions
-			fundiagpp_flat=zeros(n)
-			funNy_flat=zeros(n)
-			try
-				fundiagpp_flat=KrylovfunDiagPP(A_flat, logmat,flog,range_test[i],deg+1,q_test)
-				funNy_flat=funNyströmDiag(A_flat, logmat,flog,range_test[i],deg+1,q_test)
-			catch
-				fundiagpp_flat=KrylovfunDiagPP(A_flat, logmat,flog,range_test[i],deg+1,q_test)
-				funNy_flat=funNyströmDiag(A_flat, logmat,flog,range_test[i],deg+1,q_test)
-			end
-
-
-            Exact_fA_error_flat_log[i] += (1/n_tries)*norm(GH_exact_exp_flat-diag_flat_log)/norm_flat_log
-            Chebyshev_error_flat_log[i] += (1/n_tries)*norm(ch_flat-diag_flat_log)/norm_flat_log
-            Remez_error_flat_log[i] += (1/n_tries)*norm(rem_flat-diag_flat_log)/norm_flat_log
-            Krylov_error_flat_log[i] += (1/n_tries)*norm(kr_flat-diag_flat_log)/norm_flat_log
-            funDiagPP_error_flat_log[i] += (1/n_tries)*norm(fundiagpp_flat-diag_flat_log)/norm_flat_log
-			funNy_error_flat_log[i] += (1/n_tries)*norm(funNy_flat-diag_flat_log)/norm_flat_log
-
-			GH_exact_exp_step=EstimateDiagonal(A_step_log,:GirardHutchinson,:queries,:Gaussian,maxqueries=range_test[i])
-			ch_step=EstimateFunctionDiagonal(A_step,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, deg,int=(1.0,3.0),maxqueries=range_test[i])
-			rem_step=EstimateFunctionDiagonal(A_step,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Remez, deg,int=(1.0,3.0),maxqueries=range_test[i])
-			kr_step=GirardHutchinsonFunctionDiagonalKrylovCustom(A_step,range_test[i],logmat,deg+1)
-			fundiagpp_step=zeros(n)
-			funNy_step=zeros(n)
-			try
-				fundiagpp_step=KrylovfunDiagPP(A_step, logmat,flog_norm,range_test[i],deg+1,q_test)
-				funNy_step=funNyströmDiag(A_step, logmat,flog_norm,range_test[i],deg+1,q_test)
-			catch
-				fundiagpp_step=KrylovfunDiagPP(A_step, logmat,flog,range_test[i],deg+1,q_test)
-				funNy_step=funNyströmDiag(A_step, logmat,flog,range_test[i],deg+1,q_test)
-			end
-
-			Exact_fA_error_step_log[i] += (1/n_tries)*norm(GH_exact_exp_step-diag_step_log)/norm_step_log
-			Chebyshev_error_step_log[i] += (1/n_tries)*norm(ch_step-diag_step_log)/norm_step_log
-			Remez_error_step_log[i] += (1/n_tries)*norm(rem_step-diag_step_log)/norm_step_log
-			Krylov_error_step_log[i] += (1/n_tries)*norm(kr_step-diag_step_log)/norm_step_log
-			funDiagPP_error_step_log[i] += (1/n_tries)*norm(fundiagpp_step-diag_step_log)/norm_step_log
-			funNy_error_step_log[i] += (1/n_tries)*norm(funNy_step-diag_step_log)/norm_step_log
-
-			GH_exact_exp_poly=EstimateDiagonal(A_poly_log,:GirardHutchinson,:queries,:Gaussian,maxqueries=range_test[i])
-			ch_poly=EstimateFunctionDiagonal(A_poly,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, deg,int=(1.0,3.0),maxqueries=range_test[i])
-			rem_poly=EstimateFunctionDiagonal(A_poly,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Remez, deg,int=(1.0,3.0),maxqueries=range_test[i])
-			kr_poly=GirardHutchinsonFunctionDiagonalKrylovCustom(A_poly,range_test[i],logmat,deg+1)
+			# GH_exact_exp_flat=EstimateDiagonal(A_flat_log,:GirardHutchinson,:queries,:Gaussian,maxqueries=range_test[i])
+			# ch_flat=EstimateFunctionDiagonal(A_flat,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, deg,int=(1.0,3.0),maxqueries=range_test[i])
+			# rem_flat=EstimateFunctionDiagonal(A_flat,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Remez, deg,int=(1.0,3.0),maxqueries=range_test[i])
+			# kr_flat=GirardHutchinsonFunctionDiagonalKrylovCustom(A_flat,range_test[i],logmat,deg+1)
+			# # Add try-catck block to handle LAPACK exceptions
+			# fundiagpp_flat=zeros(n)
+			# funNy_flat=zeros(n)
+			# try
+			# 	fundiagpp_flat=KrylovfunDiagPP(A_flat, logmat,flog,range_test[i],deg+1,q_test)
+			# 	funNy_flat=funNyströmDiag(A_flat, logmat,flog,range_test[i],deg+1,q_test)
+			# catch
+			# 	fundiagpp_flat=KrylovfunDiagPP(A_flat, logmat,flog,range_test[i],deg+1,q_test)
+			# 	funNy_flat=funNyströmDiag(A_flat, logmat,flog,range_test[i],deg+1,q_test)
+			# end
+			#
+			#
+            # Exact_fA_error_flat_log[i] += (1/n_tries)*norm(GH_exact_exp_flat-diag_flat_log)/norm_flat_log
+            # Chebyshev_error_flat_log[i] += (1/n_tries)*norm(ch_flat-diag_flat_log)/norm_flat_log
+            # Remez_error_flat_log[i] += (1/n_tries)*norm(rem_flat-diag_flat_log)/norm_flat_log
+            # Krylov_error_flat_log[i] += (1/n_tries)*norm(kr_flat-diag_flat_log)/norm_flat_log
+            # funDiagPP_error_flat_log[i] += (1/n_tries)*norm(fundiagpp_flat-diag_flat_log)/norm_flat_log
+			# funNy_error_flat_log[i] += (1/n_tries)*norm(funNy_flat-diag_flat_log)/norm_flat_log
+			#
+			# GH_exact_exp_step=EstimateDiagonal(A_step_log,:GirardHutchinson,:queries,:Gaussian,maxqueries=range_test[i])
+			# ch_step=EstimateFunctionDiagonal(A_step,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, deg,int=(1.0,3.0),maxqueries=range_test[i])
+			# rem_step=EstimateFunctionDiagonal(A_step,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Remez, deg,int=(1.0,3.0),maxqueries=range_test[i])
+			# kr_step=GirardHutchinsonFunctionDiagonalKrylovCustom(A_step,range_test[i],logmat,deg+1)
+			# fundiagpp_step=zeros(n)
+			# funNy_step=zeros(n)
+			# try
+			# 	fundiagpp_step=KrylovfunDiagPP(A_step, logmat,flog_norm,range_test[i],deg+1,q_test)
+			# 	funNy_step=funNyströmDiag(A_step, logmat,flog_norm,range_test[i],deg+1,q_test)
+			# catch
+			# 	fundiagpp_step=KrylovfunDiagPP(A_step, logmat,flog,range_test[i],deg+1,q_test)
+			# 	funNy_step=funNyströmDiag(A_step, logmat,flog,range_test[i],deg+1,q_test)
+			# end
+			#
+			# Exact_fA_error_step_log[i] += (1/n_tries)*norm(GH_exact_exp_step-diag_step_log)/norm_step_log
+			# Chebyshev_error_step_log[i] += (1/n_tries)*norm(ch_step-diag_step_log)/norm_step_log
+			# Remez_error_step_log[i] += (1/n_tries)*norm(rem_step-diag_step_log)/norm_step_log
+			# Krylov_error_step_log[i] += (1/n_tries)*norm(kr_step-diag_step_log)/norm_step_log
+			# funDiagPP_error_step_log[i] += (1/n_tries)*norm(fundiagpp_step-diag_step_log)/norm_step_log
+			# funNy_error_step_log[i] += (1/n_tries)*norm(funNy_step-diag_step_log)/norm_step_log
+			#
+			# GH_exact_exp_poly=EstimateDiagonal(A_poly_log,:GirardHutchinson,:queries,:Gaussian,maxqueries=range_test[i])
+			# ch_poly=EstimateFunctionDiagonal(A_poly,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, deg,int=(1.0,3.0),maxqueries=range_test[i])
+			# rem_poly=EstimateFunctionDiagonal(A_poly,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Remez, deg,int=(1.0,3.0),maxqueries=range_test[i])
+			# kr_poly=GirardHutchinsonFunctionDiagonalKrylovCustom(A_poly,range_test[i],logmat,deg+1)
 			fundiagpp_poly=zeros(n)
-			funNy_poly=zeros(n)
+			# funNy_poly=zeros(n)
 			try
 				fundiagpp_poly=KrylovfunDiagPP(A_poly, logmat,flog,range_test[i],deg+1,q_test)
-				funNy_poly=funNyströmDiag(A_poly, logmat,flog,range_test[i],deg+1,q_test)
+			# 	funNy_poly=funNyströmDiag(A_poly, logmat,flog,range_test[i],deg+1,q_test)
 			catch
 				fundiagpp_poly=KrylovfunDiagPP(A_poly, logmat,flog,range_test[i],deg+1,q_test)
-				funNy_poly=funNyströmDiag(A_poly, logmat,flog,range_test[i],deg+1,q_test)
+			# 	funNy_poly=funNyströmDiag(A_poly, logmat,flog,range_test[i],deg+1,q_test)
 			end
-
-
-			Exact_fA_error_poly_log[i] += (1/n_tries)*norm(GH_exact_exp_poly-diag_poly_log)/norm_poly_log
-			Chebyshev_error_poly_log[i] += (1/n_tries)*norm(ch_poly-diag_poly_log)/norm_poly_log
-			Remez_error_poly_log[i] += (1/n_tries)*norm(rem_poly-diag_poly_log)/norm_poly_log
-			Krylov_error_poly_log[i] += (1/n_tries)*norm(kr_poly-diag_poly_log)/norm_poly_log
-			funDiagPP_error_poly_log[i] += (1/n_tries)*norm(diag_poly_log-diag_poly_exp)/norm_poly_exp
-			funNy_error_poly_log[i] += (1/n_tries)*norm(funNy_poly-diag_poly_log)/norm_poly_log
-
-			GH_exact_exp_exp=EstimateDiagonal(A_exp_log,:GirardHutchinson,:queries,:Gaussian,maxqueries=range_test[i])
-			ch_exp=EstimateFunctionDiagonal(A_exp,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, deg,int=(1.0,3.0),maxqueries=range_test[i])
-			rem_exp=EstimateFunctionDiagonal(A_exp,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Remez, deg,int=(1.0,3.0),maxqueries=range_test[i])
-			kr_exp=GirardHutchinsonFunctionDiagonalKrylovCustom(A_exp,range_test[i],logmat,deg+1)
-			fundiagpp_exp=zeros(n)
-			funNy_exp=zeros(n)
-			try
-				fundiagpp_exp=KrylovfunDiagPP(A_exp, logmat,flog,range_test[i],deg+1,q_test)
-				funNy_exp=funNyströmDiag(A_exp, logmat,flog,range_test[i],deg+1,q_test)
-			catch
-				fundiagpp_exp=KrylovfunDiagPP(A_exp, logmat,flog,range_test[i],deg+1,q_test)
-				funNy_exp=funNyströmDiag(A_exp, logmat,flog,range_test[i],deg+1,q_test)
-			end
-
-
-            Exact_fA_error_exp_log[i] += (1/n_tries)*norm(GH_exact_exp_exp-diag_exp_log)/norm_exp_log
-            Chebyshev_error_exp_log[i] += (1/n_tries)*norm(ch_exp-diag_exp_log)/norm_exp_log
-            Remez_error_exp_log[i] += (1/n_tries)*norm(rem_exp-diag_exp_log)/norm_exp_log
-            Krylov_error_exp_log[i] += (1/n_tries)*norm(kr_exp-diag_exp_log)/norm_exp_log
-            funDiagPP_error_exp_log[i] += (1/n_tries)*norm(fundiagpp_exp-diag_exp_log)/norm_exp_log
-			funNy_error_exp_log[i] += (1/n_tries)*norm(funNy_exp-diag_exp_log)/norm_exp_log
+			#
+			#
+			# Exact_fA_error_poly_log[i] += (1/n_tries)*norm(GH_exact_exp_poly-diag_poly_log)/norm_poly_log
+			# Chebyshev_error_poly_log[i] += (1/n_tries)*norm(ch_poly-diag_poly_log)/norm_poly_log
+			# Remez_error_poly_log[i] += (1/n_tries)*norm(rem_poly-diag_poly_log)/norm_poly_log
+			# Krylov_error_poly_log[i] += (1/n_tries)*norm(kr_poly-diag_poly_log)/norm_poly_log
+			funDiagPP_error_poly_log[i] += (1/n_tries)*norm(fundiagpp_poly-diag_poly_log)/norm_poly_log
+			# funNy_error_poly_log[i] += (1/n_tries)*norm(funNy_poly-diag_poly_log)/norm_poly_log
+			#
+			# GH_exact_exp_exp=EstimateDiagonal(A_exp_log,:GirardHutchinson,:queries,:Gaussian,maxqueries=range_test[i])
+			# ch_exp=EstimateFunctionDiagonal(A_exp,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Chebyshev, deg,int=(1.0,3.0),maxqueries=range_test[i])
+			# rem_exp=EstimateFunctionDiagonal(A_exp,flog,flog,:GirardHutchinson,:queries, :Gaussian, :Remez, deg,int=(1.0,3.0),maxqueries=range_test[i])
+			# kr_exp=GirardHutchinsonFunctionDiagonalKrylovCustom(A_exp,range_test[i],logmat,deg+1)
+			# fundiagpp_exp=zeros(n)
+			# funNy_exp=zeros(n)
+			# try
+			# 	fundiagpp_exp=KrylovfunDiagPP(A_exp, logmat,flog,range_test[i],deg+1,q_test)
+			# 	funNy_exp=funNyströmDiag(A_exp, logmat,flog,range_test[i],deg+1,q_test)
+			# catch
+			# 	fundiagpp_exp=KrylovfunDiagPP(A_exp, logmat,flog,range_test[i],deg+1,q_test)
+			# 	funNy_exp=funNyströmDiag(A_exp, logmat,flog,range_test[i],deg+1,q_test)
+			# end
+			#
+			#
+            # Exact_fA_error_exp_log[i] += (1/n_tries)*norm(GH_exact_exp_exp-diag_exp_log)/norm_exp_log
+            # Chebyshev_error_exp_log[i] += (1/n_tries)*norm(ch_exp-diag_exp_log)/norm_exp_log
+            # Remez_error_exp_log[i] += (1/n_tries)*norm(rem_exp-diag_exp_log)/norm_exp_log
+            # Krylov_error_exp_log[i] += (1/n_tries)*norm(kr_exp-diag_exp_log)/norm_exp_log
+            # funDiagPP_error_exp_log[i] += (1/n_tries)*norm(fundiagpp_exp-diag_exp_log)/norm_exp_log
+			# funNy_error_exp_log[i] += (1/n_tries)*norm(funNy_exp-diag_exp_log)/norm_exp_log
     end
 end
 
 ##
 l = @layout [a b;c d]
 
-plot11 = scatter(range_test,Exact_fA_error_flat_log,label="", title="flat_log", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",color="red",markershape = :pentagon,yaxis=:log,legend=:topright,size=(1250,400),margin=4mm)
+plot11 = scatter(range_test,Exact_fA_error_flat_log,label="", title="Flat", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",color="red",markershape = :pentagon,yaxis=:log,legend=:topright,size=(1250,400),margin=4mm)
 plot!(plot11,range_test,Exact_fA_error_flat_log,label="",color="red",yaxis=:log)
 scatter!(plot11,range_test,Chebyshev_error_flat_log,label="",color="green",markershape = :ltriangle,yaxis=:log)
 plot!(plot11,range_test,Chebyshev_error_flat_log,label="",color="green",yaxis=:log)
@@ -818,7 +817,7 @@ scatter!(plot11,range_test,funNy_error_flat_log,label="",color="pink",markershap
 plot!(plot11,range_test,funNy_error_flat_log,label="",color="pink",yaxis=:log)
 
 
- plot22 = scatter(range_test,Exact_fA_error_step_log,label=L"\textrm{GH }+f(\textbf{A})", title="Step_log", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",yaxis=:log,color="red",markershape = :circle,legend=:topright,size=(1250,400),margin=4mm)
+ plot22 = scatter(range_test,Exact_fA_error_step_log,label=L"\textrm{GH }+f(\textbf{A})", title="Step", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",yaxis=:log,color="red",markershape = :circle,legend=:topright,size=(1250,400),margin=4mm)
 plot!( plot22,range_test,Exact_fA_error_step_log,label="",color="red",yaxis=:log)
 scatter!( plot22,range_test,Chebyshev_error_step_log,label="funDiag Chebyshev",color="green",markershape = :ltriangle,yaxis=:log)
 plot!( plot22,range_test,Chebyshev_error_step_log,label="",color="green",yaxis=:log)
@@ -832,7 +831,7 @@ scatter!( plot22,range_test,funNy_error_step_log,label="funNyström",color="pink
 plot!( plot22,range_test,funNy_error_step_log,label="",color="pink",yaxis=:log)
 
 
- plot23 = scatter(range_test,Exact_fA_error_poly_log,label="", title="Poly_log", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",yaxis=:log,color="red",markershape = :pentagon,legend=:topright,size=(1250,400),margin=4mm)
+ plot23 = scatter(range_test,Exact_fA_error_poly_log,label="", title="Poly", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",yaxis=:log,color="red",markershape = :pentagon,legend=:topright,size=(1250,400),margin=4mm)
 plot!( plot23,range_test,Exact_fA_error_poly_log,label="",color="red",yaxis=:log)
 scatter!( plot23,range_test,Chebyshev_error_poly_log,label="",color="green",markershape = :ltriangle,yaxis=:log)
 plot!( plot23,range_test,Chebyshev_error_poly_log,label="",color="green",yaxis=:log)
@@ -845,7 +844,7 @@ plot!( plot23,range_test,funDiagPP_error_poly_log,label="",color="brown",yaxis=:
 scatter!( plot23,range_test,funNy_error_poly_log,label="",color="pink",markershape = :utriangle,yaxis=:log)
 plot!( plot23,range_test,funNy_error_poly_log,label="",color="pink",yaxis=:log)
 
- plot24 = scatter(range_test,Exact_fA_error_exp_log,label="", title="Exp_log", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",yaxis=:log,color="red",markershape = :pentagon,legend=:topright,size=(1250,400),margin=4mm)
+ plot24 = scatter(range_test,Exact_fA_error_exp_log,label="", title="Exp", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",yaxis=:log,color="red",markershape = :pentagon,legend=:topright,size=(1250,400),margin=4mm)
 plot!( plot24,range_test,Exact_fA_error_exp_log,label="",color="red",yaxis=:log)
 scatter!( plot24,range_test,Chebyshev_error_exp_log,label="",color="green",markershape = :ltriangle,yaxis=:log)
 plot!( plot24,range_test,Chebyshev_error_exp_log,label="",color="green",yaxis=:log)
@@ -858,9 +857,9 @@ plot!( plot24,range_test,funDiagPP_error_exp_log,label="",color="brown",yaxis=:l
 scatter!( plot24,range_test,funNy_error_exp_log,label="",color="pink",markershape = :utriangle,yaxis=:log)
 plot!( plot24,range_test,funNy_error_exp_log,label="",color="pink",yaxis=:log)
 
-plot(plot1,  plot22,  plot23,  plot24, layout = l,size=(900,600))
+plot(plot11,  plot22,  plot23,  plot24, layout = l,size=(900,600))
 
-
+# savefig("Paperplot_log.pdf")
 
 
 
@@ -893,8 +892,7 @@ diag_step_double_inv = diag(A_step_double_inv)
 norm_flat_double_inv = norm(diag_flat_double_inv)
 norm_poly_double_inv = norm(diag_poly_double_inv)
 norm_exp_double_inv = norm(diag_exp_double_inv)
-norm_step_double_inv = norm(diag_step_double_inv);
-
+norm_step_double_inv = norm(diag_step_double_inv)
 
 ## Custom functions
 
@@ -1033,8 +1031,8 @@ scatter!(plot51,range_test,Krylov_error_flat_double_inv,label="funDiag CG, 26 st
 plot!(plot51,range_test,Krylov_error_flat_double_inv,label="",color="orange",yaxis=:log)
 scatter!(plot51,range_test,Krylov_error_flat_double_inv,label="funDiag CG, 101 steps",color="brown",markershape = :pentagon,yaxis=:log)
 plot!(plot51,range_test,Krylov_error_flat_double_inv,label="",color="brown",yaxis=:log)
-scatter!(plot51,range_test,Change_error_flat_double_inv,label=L"D^s(\textbf(A))^{-2}",color="black",markershape = :cross,yaxis=:log)
-plot!(plot51,range_test,Change_error_flat_double_inv,label="",color="black",yaxis=:log)
+# scatter!(plot51,range_test,Change_error_flat_double_inv,label=L"D^s(\textbf(A))^{-2}",color="black",markershape = :cross,yaxis=:log)
+# plot!(plot51,range_test,Change_error_flat_double_inv,label="",color="black",yaxis=:log)
 
 
 plot52 = scatter(range_test,Stocherr_step_double_inv,label="", title="Step", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",yaxis=:log,color="red",markershape = :circle,legend=:topright,size=(1250,400),margin=4mm)
@@ -1045,8 +1043,8 @@ scatter!(plot52,range_test,Krylov_error_step_double_inv,label="",color="orange",
 plot!(plot52,range_test,Krylov_error_step_double_inv,label="",color="orange",yaxis=:log)
 scatter!(plot52,range_test,Krylov_error_step_double_inv2,label="",color="brown",markershape = :pentagon,yaxis=:log)
 plot!(plot52,range_test,Krylov_error_step_double_inv2,label="",color="brown",yaxis=:log)
-scatter!(plot52,range_test,Change_error_step_double_inv,label=L"D^s(\textbf(A))^{-2}",color="black",markershape = :cross,yaxis=:log)
-plot!(plot52,range_test,Change_error_step_double_inv,label="",color="black",yaxis=:log)
+# scatter!(plot52,range_test,Change_error_step_double_inv,label=L"D^s(\textbf(A))^{-2}",color="black",markershape = :cross,yaxis=:log)
+# plot!(plot52,range_test,Change_error_step_double_inv,label="",color="black",yaxis=:log)
 
 plot53 = scatter(range_test,Stocherr_poly_double_inv,label="", title="Poly", ylabel=L"\textrm{Relative }\mathcal{L}^2\textrm{ error}", xlabel="Number of test vectors",yaxis=:log,color="red",markershape = :pentagon,legend=:topright,size=(1250,400),margin=4mm)
 plot!(plot53,range_test,Stocherr_poly_double_inv,label="",color="red",yaxis=:log)
@@ -1056,8 +1054,11 @@ scatter!(plot53,range_test,Krylov_error_poly_double_inv,label="",color="orange",
 plot!(plot53,range_test,Krylov_error_poly_double_inv,label="",color="orange",yaxis=:log)
 scatter!(plot53,range_test,Krylov_error_poly_double_inv2,label="",color="brown",markershape = :pentagon,yaxis=:log)
 plot!(plot53,range_test,Krylov_error_poly_double_inv2,label="",color="brown",yaxis=:log)
-scatter!(plot53,range_test,Change_error_poly_double_inv,label=L"D^s(\textbf(A))^{-2}",color="black",markershape = :cross,yaxis=:log)
-plot!(plot53,range_test,Change_error_poly_double_inv,label="",color="black",yaxis=:log)
+# scatter!(plot53,range_test,Change_error_poly_double_inv,label=L"D^s(\textbf(A))^{-2}",color="black",markershape = :cross,yaxis=:log)
+# plot!(plot53,range_test,Change_error_poly_double_inv,label="",color="black",yaxis=:log)
 
 
 plot(plot51, plot52, plot53, layout = l2,size=(900,300))
+
+
+#savefig("Paperplot_doubleinv.pdf")
